@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: plexdachpl-web/plex-dach-strona
+  name: git-gateway
   branch: main
-  auth_endpoint: api/auth
 
 media_folder: assets/images
 public_folder: /assets/images
