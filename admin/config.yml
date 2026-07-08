@@ -1,0 +1,88 @@
+backend:
+  name: github
+  repo: plexdachpl-web/plex-dach-strona
+  branch: main
+  auth_endpoint: api/auth
+
+media_folder: assets/images
+public_folder: /assets/images
+
+locale: pl
+
+collections:
+  - name: site
+    label: "Treść strony"
+    files:
+      - name: site
+        label: "Główna strona"
+        file: content/site.json
+        format: json
+        fields:
+          - { label: "Tytuł strony", name: site_title, widget: string }
+          - { label: "Telefon (format: +48666638821)", name: phone, widget: string }
+          - { label: "Telefon (wyświetlany: 666 638 821)", name: phone_display, widget: string }
+          - { label: "E-mail", name: email, widget: string }
+
+          - label: "Sekcja Hero"
+            name: hero_group
+            widget: object
+            summary: "Hero"
+            fields:
+              - { label: "Eyebrow (nad nagłówkiem)", name: hero_eyebrow, widget: string }
+              - { label: "Podtytuł", name: hero_subtitle, widget: text }
+
+          - label: "Statystyki"
+            name: stats_group
+            widget: object
+            summary: "Statystyki"
+            fields:
+              - { label: "Stat 1 — liczba", name: stat1_val, widget: string }
+              - { label: "Stat 1 — opis", name: stat1_label, widget: string }
+              - { label: "Stat 2 — liczba", name: stat2_val, widget: string }
+              - { label: "Stat 2 — opis", name: stat2_label, widget: string }
+              - { label: "Stat 3 — liczba", name: stat3_val, widget: string }
+              - { label: "Stat 3 — opis", name: stat3_label, widget: string }
+              - { label: "Stat 4 — liczba", name: stat4_val, widget: string }
+              - { label: "Stat 4 — opis", name: stat4_label, widget: string }
+
+          - label: "Usługi"
+            name: services_group
+            widget: object
+            summary: "Usługi"
+            fields:
+              - { label: "Usługa 1 — tytuł", name: svc1_title, widget: string }
+              - { label: "Usługa 1 — opis", name: svc1_desc, widget: text }
+              - { label: "Usługa 2 — tytuł", name: svc2_title, widget: string }
+              - { label: "Usługa 2 — opis", name: svc2_desc, widget: text }
+              - { label: "Usługa 3 — tytuł", name: svc3_title, widget: string }
+              - { label: "Usługa 3 — opis", name: svc3_desc, widget: text }
+              - { label: "Usługa 4 — tytuł", name: svc4_title, widget: string }
+              - { label: "Usługa 4 — opis", name: svc4_desc, widget: text }
+
+          - label: "Opinie"
+            name: reviews_group
+            widget: object
+            summary: "Opinie"
+            fields:
+              - { label: "Opinia 1 — tekst", name: review1_text, widget: text }
+              - { label: "Opinia 1 — autor", name: review1_author, widget: string }
+              - { label: "Opinia 1 — typ usługi", name: review1_service, widget: string }
+              - { label: "Opinia 2 — tekst", name: review2_text, widget: text }
+              - { label: "Opinia 2 — autor", name: review2_author, widget: string }
+              - { label: "Opinia 2 — typ usługi", name: review2_service, widget: string }
+              - { label: "Opinia 3 — tekst", name: review3_text, widget: text }
+              - { label: "Opinia 3 — autor", name: review3_author, widget: string }
+              - { label: "Opinia 3 — typ usługi", name: review3_service, widget: string }
+
+  - name: pages
+    label: "Podstrony"
+    label_singular: "Podstrona"
+    folder: content/pages
+    create: true
+    slug: "{{slug}}"
+    format: json
+    fields:
+      - { label: "Tytuł", name: title, widget: string }
+      - { label: "Slug (adres URL, np. o-nas)", name: slug, widget: string }
+      - { label: "Treść", name: body, widget: markdown }
+      - { label: "Meta opis (SEO)", name: description, widget: string, required: false }
