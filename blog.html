@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog — Plex-Dach | Porady o zadaszeniach, pergolach i wiatach</title>
+<meta name="description" content="Blog Plex-Dach — porady o pielęgnacji drewna i stali, wyborze zadaszenia tarasu, pergoli i wiaty samochodowej. Wiedza prosto z warsztatu w Sochaczewie." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Lato:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   ZMIENNE / RESET / WSPÓLNE — spójne z Plex-Dach.html
+   ============================================================ */
+:root{
+  --green:#2D4A3E; --green-deep:#1F352C; --green-darker:#14241D;
+  --cream:#F5EDD8; --cream-soft:#FAF5E8; --paper:#F3ECDA; --anthracite:#3A3A3A;
+  --ink:#23271F; --ink-soft:#4A4F44; --brass:#BE8A4B; --brass-soft:#D6A964;
+  --line:#DAD0B6; --line-dark:rgba(245,237,216,.18);
+  --maxw:1240px; --gutter:clamp(20px,5vw,64px); --r:4px;
+  --serif:"Playfair Display",Georgia,serif; --sans:"Lato",system-ui,sans-serif; --mono:"DM Mono",ui-monospace,monospace;
+}
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; scroll-padding-top:84px; -webkit-text-size-adjust:100%; }
+body{ font-family:var(--sans); color:var(--ink); background:var(--cream-soft); line-height:1.65; font-size:17px; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+img{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+a:hover{ color:var(--brass); }
+button{ font-family:inherit; cursor:pointer; }
+ul{ list-style:none; }
+body::before{
+  content:""; position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:.04; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.eyebrow{ font-family:var(--mono); font-size:.72rem; font-weight:500; letter-spacing:.28em; text-transform:uppercase; display:inline-flex; align-items:center; gap:.7em; color:var(--brass); }
+.eyebrow::before{ content:""; width:34px; height:1px; background:currentColor; opacity:.6; }
+.container{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter); }
+.section{ position:relative; padding-block:clamp(64px,9vw,120px); }
+
+.btn{ display:inline-flex; align-items:center; gap:.6em; font-family:var(--sans); font-weight:700; font-size:.95rem; letter-spacing:.01em; padding:.95em 1.8em; border-radius:100px; border:1.5px solid currentColor; background:transparent; transition:all .35s cubic-bezier(.2,.7,.2,1); white-space:nowrap; }
+.btn svg{ width:18px; height:18px; flex-shrink:0; }
+.btn--solid{ background:var(--brass); border-color:var(--brass); color:var(--green-darker); }
+.btn--solid:hover{ background:var(--brass-soft); border-color:var(--brass-soft); transform:translateY(-2px); box-shadow:0 12px 26px -12px rgba(190,138,75,.7); color:var(--green-darker); }
+.btn--ghost-light{ color:var(--cream); }
+.btn--ghost-light:hover{ background:var(--cream); color:var(--green-deep); transform:translateY(-2px); }
+
+.arrow-link{ font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; font-weight:500; display:inline-flex; align-items:center; gap:.6em; color:var(--green); transition:gap .3s ease, color .3s ease; }
+.arrow-link svg{ width:20px; height:10px; transition:transform .3s ease; }
+.arrow-link:hover{ gap:1em; color:var(--brass); }
+.arrow-link:hover svg{ transform:translateX(4px); }
+
+/* NAVBAR */
+.nav{ position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:18px var(--gutter); transition:all .4s ease; }
+.nav.scrolled{ background:rgba(20,36,29,.93); backdrop-filter:blur(10px); padding-block:12px; box-shadow:0 1px 0 var(--line-dark), 0 18px 40px -28px rgba(0,0,0,.6); }
+.brand{ display:flex; align-items:center; gap:.65em; color:var(--cream); }
+.brand__mark{ width:34px; height:34px; flex-shrink:0; }
+.brand__name{ font-family:var(--serif); font-weight:800; font-size:1.32rem; letter-spacing:.01em; line-height:1; }
+.brand__name span{ color:var(--brass-soft); }
+.brand__tag{ font-family:var(--mono); font-size:.56rem; letter-spacing:.24em; text-transform:uppercase; opacity:.7; display:block; margin-top:3px; }
+.nav__links{ display:flex; align-items:center; gap:clamp(14px,2vw,30px); }
+.nav__links a{ color:var(--cream); font-size:.9rem; font-weight:700; letter-spacing:.01em; position:relative; padding:4px 0; opacity:.92; }
+.nav__links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:var(--brass-soft); transition:width .3s ease; }
+.nav__links a:hover{ opacity:1; color:var(--cream); }
+.nav__links a:hover::after, .nav__links a.is-active::after{ width:100%; }
+.nav__links a.is-active{ color:var(--brass-soft); }
+.nav__cta{ display:flex; align-items:center; gap:14px; }
+.nav__phone{ font-family:var(--mono); font-size:.92rem; color:var(--cream); display:inline-flex; align-items:center; gap:.5em; }
+.nav__phone:hover{ color:var(--cream); }
+.nav__phone svg{ width:15px; height:15px; color:var(--brass-soft); }
+.hamburger{ display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; z-index:1100; }
+.hamburger span{ width:26px; height:2px; background:var(--cream); transition:all .35s ease; transform-origin:center; }
+.hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2){ opacity:0; }
+.hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+/* ============================================================
+   BLOG HERO
+   ============================================================ */
+.blog-hero{ background:var(--green-darker); color:var(--cream); padding-top:168px; padding-bottom:70px; position:relative; overflow:hidden; }
+.blog-hero::after{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 85% 0%, rgba(45,74,62,.55), transparent 60%); pointer-events:none; }
+.blog-hero__eyebrow{ margin-bottom:22px; color:var(--brass-soft); }
+.blog-hero h1{ font-family:var(--serif); font-weight:800; font-size:clamp(2.6rem,6vw,5rem); line-height:1.02; max-width:16ch; letter-spacing:-.01em; }
+.blog-hero h1 em{ font-style:italic; font-weight:500; color:var(--brass-soft); }
+.blog-hero p{ margin-top:22px; max-width:48ch; color:rgba(245,237,216,.78); font-size:clamp(1rem,1.4vw,1.15rem); }
+
+/* filtry kategorii */
+.filters{ margin-top:38px; display:flex; flex-wrap:wrap; gap:10px; position:relative; }
+.filters button{
+  font-family:var(--mono); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
+  border:1px solid var(--line-dark); border-radius:100px; padding:.6em 1.2em; background:transparent; color:rgba(245,237,216,.75);
+  transition:all .3s ease;
+}
+.filters button:hover{ border-color:var(--brass-soft); color:var(--cream); }
+.filters button.is-active{ background:var(--brass); border-color:var(--brass); color:var(--green-darker); }
+
+/* ============================================================
+   SIATKA ARTYKUŁÓW
+   ============================================================ */
+.blog{ background:var(--cream-soft); }
+.blog__grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:22px; }
+.post{
+  grid-column:span 4; display:flex; flex-direction:column; background:var(--paper); border:1px solid var(--line);
+  border-radius:var(--r); overflow:hidden; transition:transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .45s ease, border-color .45s ease;
+}
+.post:hover{ transform:translateY(-6px); box-shadow:0 30px 60px -34px rgba(31,53,44,.35); border-color:var(--green); }
+.post--featured{ grid-column:span 12; flex-direction:row; min-height:360px; }
+.post__media{ position:relative; overflow:hidden; aspect-ratio:16/10; background:var(--green-deep); }
+.post--featured .post__media{ flex:1 1 52%; aspect-ratio:auto; }
+.post__media img{ width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.7,.2,1); }
+.post:hover .post__media img{ transform:scale(1.06); }
+.post__tag{
+  position:absolute; top:16px; left:16px; font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+  background:rgba(20,36,29,.82); color:var(--brass-soft); padding:.5em 1em; border-radius:100px; backdrop-filter:blur(4px);
+}
+.post__body{ padding:26px 26px 28px; display:flex; flex-direction:column; flex:1; }
+.post--featured .post__body{ flex:1 1 48%; justify-content:center; padding:40px 44px; }
+.post__meta{ font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--ink-soft); display:flex; align-items:center; gap:.7em; }
+.post__meta::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--brass); }
+.post__title{ font-family:var(--serif); font-weight:700; font-size:1.32rem; line-height:1.15; margin-top:12px; }
+.post--featured .post__title{ font-size:clamp(1.7rem,3vw,2.5rem); margin-top:16px; }
+.post__excerpt{ margin-top:10px; font-size:.94rem; color:var(--ink-soft); }
+.post--featured .post__excerpt{ font-size:1.02rem; max-width:46ch; margin-top:16px; }
+.post .arrow-link{ margin-top:auto; padding-top:18px; }
+
+/* pasek CTA newslettera / kontaktu */
+.blog-cta{ background:var(--green); color:var(--cream); border-radius:6px; padding:clamp(36px,5vw,56px); margin-top:clamp(50px,6vw,80px); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:28px; }
+.blog-cta h3{ font-family:var(--serif); font-weight:700; font-size:clamp(1.5rem,2.6vw,2.1rem); max-width:22ch; line-height:1.15; }
+.blog-cta h3 em{ font-style:italic; font-weight:500; color:var(--brass-soft); }
+.blog-cta p{ margin-top:8px; color:rgba(245,237,216,.75); max-width:42ch; }
+
+/* ============================================================
+   STOPKA
+   ============================================================ */
+.footer{ background:var(--green-darker); color:var(--cream); padding-top:clamp(60px,7vw,90px); }
+.footer__top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.1fr; gap:40px; padding-bottom:54px; border-bottom:1px solid var(--line-dark); }
+.footer__brand .brand{ margin-bottom:18px; }
+.footer__brand p{ color:rgba(245,237,216,.7); font-size:.92rem; max-width:34ch; }
+.footer__col h4{ font-family:var(--mono); font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--brass-soft); margin-bottom:18px; }
+.footer__col ul{ display:flex; flex-direction:column; gap:11px; }
+.footer__col a, .footer__col li{ font-size:.92rem; color:rgba(245,237,216,.8); transition:color .25s; }
+.footer__col a:hover{ color:var(--cream); }
+.footer__col .line{ display:flex; align-items:center; gap:10px; }
+.footer__col .line svg{ width:15px; height:15px; color:var(--brass-soft); flex-shrink:0; }
+.footer__bottom{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px; padding-block:26px; font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:rgba(245,237,216,.5); }
+
+/* REVEAL */
+.reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-visible{ opacity:1; transform:none; }
+.reveal[data-delay="1"]{ transition-delay:.08s; }
+.reveal[data-delay="2"]{ transition-delay:.16s; }
+.reveal[data-delay="3"]{ transition-delay:.24s; }
+@media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; } .reveal{ opacity:1; transform:none; } }
+
+/* RESPONSIVE */
+@media (max-width:1200px){ .footer__top{ grid-template-columns:1.4fr 1fr 1fr; } .footer__brand{ grid-column:1/-1; } }
+@media (max-width:980px){
+  .nav__links, .nav__phone{ display:none; }
+  .hamburger{ display:flex; }
+  .nav__links{ position:fixed; inset:0; flex-direction:column; justify-content:center; gap:30px; background:rgba(20,36,29,.985); backdrop-filter:blur(8px); transform:translateX(100%); transition:transform .45s cubic-bezier(.2,.7,.2,1); }
+  .nav__links.open{ display:flex; transform:translateX(0); }
+  .nav__links a{ font-family:var(--serif); font-size:1.8rem; font-weight:700; }
+  .nav__links a::after{ display:none; }
+  .nav__cta .btn{ display:none; }
+  .post--featured{ flex-direction:column; min-height:auto; }
+  .post--featured .post__media{ aspect-ratio:16/10; }
+  .post--featured .post__body{ padding:28px 30px; }
+}
+@media (max-width:768px){
+  .blog__grid .post{ grid-column:1/-1 !important; }
+  .footer__top{ grid-template-columns:1fr 1fr; }
+  .footer__brand{ grid-column:1/-1; }
+}
+@media (max-width:480px){
+  body{ font-size:16px; }
+  .footer__top{ grid-template-columns:1fr; }
+  .blog-cta{ flex-direction:column; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========================== NAVBAR ========================== -->
+<nav class="nav" id="nav">
+  <a href="Plex-Dach.html" class="brand" aria-label="Plex-Dach — strona główna">
+    <svg class="brand__mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <rect x="1" y="1" width="38" height="38" rx="6" stroke="#BE8A4B" stroke-width="1.5"/>
+      <path d="M9 24L20 13l11 11" stroke="#F5EDD8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 24v6M20 18v12M28 24v6" stroke="#BE8A4B" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <span class="brand__name">PLEX<span>·</span>DACH
+      <span class="brand__tag">Rzemiosło · Sochaczew</span>
+    </span>
+  </a>
+
+  <ul class="nav__links" id="navLinks">
+    <li><a href="Plex-Dach.html#uslugi">Usługi</a></li>
+    <li><a href="Plex-Dach.html#dlaczego">Dlaczego my</a></li>
+    <li><a href="Plex-Dach.html#realizacje">Realizacje</a></li>
+    <li><a href="Plex-Dach.html#opinie">Opinie</a></li>
+    <li><a href="Plex-Dach - Blog.html" class="is-active">Blog</a></li>
+    <li><a href="Plex-Dach.html#wycena">Wycena</a></li>
+  </ul>
+
+  <div class="nav__cta">
+    <a href="tel:+48666638821" class="nav__phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+      666 638 821
+    </a>
+    <a href="Plex-Dach.html#wycena" class="btn btn--solid">Wyceń projekt</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========================== BLOG HERO ========================== -->
+<header class="blog-hero">
+  <div class="container">
+    <p class="eyebrow blog-hero__eyebrow">Blog Plex-Dach</p>
+    <h1>Wiedza <em>prosto</em> z warsztatu.</h1>
+    <p>Porady o pielęgnacji drewna i stali, wybieraniu konstrukcji pod Twój taras oraz o tym, czego się spodziewać na każdym etapie realizacji.</p>
+
+    <div class="filters" role="tablist" aria-label="Filtruj artykuły wg kategorii">
+      <button class="is-active" data-filter="all">Wszystkie</button>
+      <button data-filter="poradnik">Poradnik</button>
+      <button data-filter="pielegnacja">Pielęgnacja</button>
+      <button data-filter="materialy">Materiały</button>
+      <button data-filter="realizacje">Zza kulis</button>
+    </div>
+  </div>
+</header>
+
+<!-- ========================== SIATKA ARTYKUŁÓW ========================== -->
+<section class="section blog">
+  <div class="container">
+    <div class="blog__grid" id="blogGrid">
+
+      <a href="Plex-Dach - Artykul.html" class="post post--featured reveal" data-cat="poradnik">
+        <div class="post__media">
+          <span class="post__tag">Poradnik</span>
+          <img src="https://placehold.co/1000x760/1F352C/F5EDD8?text=Piel%C4%99gnacja+tarasu" alt="Pielęgnacja drewnianego tarasu wiosną" loading="lazy" />
+        </div>
+        <div class="post__body">
+          <span class="post__meta">12 marca 2026 · 6 min czytania</span>
+          <h2 class="post__title">Jak przygotować taras na sezon: pielęgnacja drewna wiosną</h2>
+          <p class="post__excerpt">Zanim rozstawisz leżaki, drewniana konstrukcja zasługuje na przegląd. Pokazujemy krok po kroku, jak umyć, naprawić i zaimpregnować zadaszenie, żeby przetrwało kolejny rok bez śladu wilgoci.</p>
+          <span class="arrow-link">Czytaj artykuł
+            <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a href="Plex-Dach - Artykul.html" class="post reveal" data-cat="poradnik">
+        <div class="post__media">
+          <span class="post__tag">Poradnik</span>
+          <img src="https://placehold.co/700x440/2D4A3E/F5EDD8?text=Pergola+czy+zadaszenie" alt="Pergola czy zadaszenie tarasu" loading="lazy" />
+        </div>
+        <div class="post__body">
+          <span class="post__meta">28 lutego 2026 · 5 min</span>
+          <h3 class="post__title">Pergola czy zadaszenie? Jak wybrać rozwiązanie dla tarasu</h3>
+          <p class="post__excerpt">Lamele, stały dach czy przekrycie ze szkła — porównujemy trzy najczęściej wybierane konstrukcje pod kątem światła, ochrony i kosztu.</p>
+          <span class="arrow-link">Czytaj artykuł
+            <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a href="Plex-Dach - Artykul.html" class="post reveal" data-delay="1" data-cat="poradnik">
+        <div class="post__media">
+          <span class="post__tag">Poradnik</span>
+          <img src="https://placehold.co/700x440/3A3A3A/F5EDD8?text=Wiata+samochodowa" alt="Błędy przy wyborze wiaty samochodowej" loading="lazy" />
+        </div>
+        <div class="post__body">
+          <span class="post__meta">15 lutego 2026 · 4 min</span>
+          <h3 class="post__title">5 błędów przy wyborze wiaty samochodowej</h3>
+          <p class="post__excerpt">Za mały spadek dachu, zła odległość od granicy działki, brak zabezpieczenia antykorozyjnego — sprawdź, czego unikać na etapie projektu.</p>
+          <span class="arrow-link">Czytaj artykuł
+            <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a href="Plex-Dach - Artykul.html" class="post reveal" data-delay="2" data-cat="materialy">
+        <div class="post__media">
+          <span class="post__tag">Materiały</span>
+          <img src="https://placehold.co/700x440/1F352C/F5EDD8?text=Poliw%C4%99glan+czy+szk%C5%82o" alt="Poliwęglan czy szkło do zadaszenia" loading="lazy" />
+        </div>
+        <div class="post__body">
+          <span class="post__meta">3 lutego 2026 · 5 min</span>
+          <h3 class="post__title">Poliwęglan czy szkło — pokrycie zadaszenia tarasu</h3>
+          <p class="post__excerpt">Waga, przepuszczalność światła, izolacja akustyczna i cena. Rozkładamy na czynniki pierwsze dwa najpopularniejsze pokrycia dachów tarasowych.</p>
+          <span class="arrow-link">Czytaj artykuł
+            <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a href="Plex-Dach - Artykul.html" class="post reveal" data-cat="realizacje">
+        <div class="post__media">
+          <span class="post__tag">Zza kulis</span>
+          <img src="https://placehold.co/700x440/2D4A3E/F5EDD8?text=Monta%C5%BC+krok+po+kroku" alt="Montaż zadaszenia krok po kroku" loading="lazy" />
+        </div>
+        <div class="post__body">
+          <span class="post__meta">20 stycznia 2026 · 7 min</span>
+          <h3 class="post__title">Ile trwa montaż zadaszenia tarasu? Krok po kroku</h3>
+          <p class="post__excerpt">Od pomiaru po ostatni śrubokręt — pokazujemy realny harmonogram realizacji na przykładzie projektu spod Żyrardowa.</p>
+          <span class="arrow-link">Czytaj artykuł
+            <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a href="Plex-Dach - Artykul.html" class="post reveal" data-delay="1" data-cat="pielegnacja">
+        <div class="post__media">
+          <span class="post__tag">Pielęgnacja</span>
+          <img src="https://placehold.co/700x440/3A3A3A/F5EDD8?text=Stal+i+aluminium" alt="Konserwacja stali i aluminium" loading="lazy" />
+        </div>
+        <div class="post__body">
+          <span class="post__meta">8 stycznia 2026 · 4 min</span>
+          <h3 class="post__title">Konserwacja stali i aluminium w konstrukcjach ogrodowych</h3>
+          <p class="post__excerpt">Ocynk, malowanie proszkowe, anodowanie — jak dbać o metalowe elementy pergoli i wiaty, żeby korozja nie miała szans.</p>
+          <span class="arrow-link">Czytaj artykuł
+            <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
+          </span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="blog-cta reveal">
+      <div>
+        <h3>Masz pytanie <em>techniczne</em>?</h3>
+        <p>Odpowiemy na wszystko związane z Twoim projektem podczas bezpłatnego pomiaru na miejscu.</p>
+      </div>
+      <a href="Plex-Dach.html#wycena" class="btn btn--solid">Umów pomiar</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================== STOPKA ========================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="Plex-Dach.html" class="brand">
+          <svg class="brand__mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="38" height="38" rx="6" stroke="#BE8A4B" stroke-width="1.5"/>
+            <path d="M9 24L20 13l11 11" stroke="#F5EDD8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 24v6M20 18v12M28 24v6" stroke="#BE8A4B" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="brand__name">PLEX<span>·</span>DACH</span>
+        </a>
+        <p>Rzemieślnicza produkcja i montaż zadaszeń, pergoli, wiat i konstrukcji na zamówienie. Sochaczew, Mazowsze.</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Strona</h4>
+        <ul>
+          <li><a href="Plex-Dach.html#uslugi">Usługi</a></li>
+          <li><a href="Plex-Dach.html#dlaczego">Dlaczego my</a></li>
+          <li><a href="Plex-Dach.html#realizacje">Realizacje</a></li>
+          <li><a href="Plex-Dach - Blog.html">Blog</a></li>
+          <li><a href="Plex-Dach.html#wycena">Wycena</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Usługi</h4>
+        <ul>
+          <li>Zadaszenia tarasów</li>
+          <li>Pergole tarasowe</li>
+          <li>Wiaty samochodowe</li>
+          <li>Realizacje na zamówienie</li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+48666638821" class="line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg> +48 666 638 821</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#7d0d11180550191c1e153d0a0d530d11" class="line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> <span class="__cf_email__" data-cfemail="146478716c397075777c5463643a6478">[email&#160;protected]</span></a></li>
+          <li class="line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> Sochaczew + 75 km</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2026 Plex-Dach · Wszelkie prawa zastrzeżone</span>
+      <span>Rzemiosło z Mazowsza · zaprojektowano z dbałością o detal</span>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  'use strict';
+
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 40); }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  var burger = document.getElementById('hamburger');
+  var links  = document.getElementById('navLinks');
+  function closeMenu(){
+    burger.classList.remove('open'); links.classList.remove('open');
+    burger.setAttribute('aria-expanded','false'); document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function(){
+    var open = burger.classList.toggle('open');
+    links.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  links.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* filtrowanie artykułów wg kategorii — czysto po stronie klienta */
+  var filterBtns = document.querySelectorAll('.filters button');
+  var posts = document.querySelectorAll('#blogGrid .post');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var f = btn.getAttribute('data-filter');
+      posts.forEach(function(p){
+        var show = (f === 'all' || p.getAttribute('data-cat') === f);
+        p.style.display = show ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</body>
+</html>
